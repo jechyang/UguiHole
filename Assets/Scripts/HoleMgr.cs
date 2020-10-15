@@ -7,47 +7,39 @@ using UnityEngine.UI;
 
 public class HoleMgr : MonoBehaviour,ICanvasRaycastFilter
 {
-    private readonly List<string> _holeNumbersKeywords = new List<string>()
-    {
-        "HOLE_ONE",
-        "HOLE_TWO",
-        "HOLE_THREE",
-        "HOLE_FOUR"
-    };
     private RectTransform _rectTransform;
     public RectTransform rectTransform => _rectTransform ?? (_rectTransform = transform as RectTransform);
 
     private Material _material;
-    public List<Image> HoleImages = new List<Image>();
-    private void Start()
+    private List<Image> HoleImages = new List<Image>();
+
+    private readonly int _maxHoleCount = 4;
+
+    private void Awake()
     {
         _material = new Material(Shader.Find("ShaderBooks/HoleShader"));
         GetComponent<Image>().material = _material;
-        RefreshHole();
     }
 
-    private void RefreshHole()
+    public void SetHoles(List<Image> holes)
+    {
+        HoleImages = holes;
+    }
+
+    public void RefreshHole()
     {
         if (HoleImages.Count == 0)
         {
             return;
         }
 
-        for (int i = 0; i < _holeNumbersKeywords.Count; i++)
+        for (int i = 0; i < _maxHoleCount; i++)
         {
-            var holeNumKeyWord = _holeNumbersKeywords[i];
-            if (i == HoleImages.Count - 1)
+            if (i>=HoleImages.Count)
             {
-                _material.EnableKeyword(holeNumKeyWord);
+                _material.SetVector($"_HoleRect{i+1}",new Vector4(0,0,0,0));
+                continue;
             }
-            else
-            {
-                _material.DisableKeyword(holeNumKeyWord);
-            }
-        }
-
-        for (int i = 0; i < HoleImages.Count; i++)
-        {
             var image = HoleImages[i];
             var texture = image.mainTexture;
             Vector3[] imgCorners = new Vector3[4];

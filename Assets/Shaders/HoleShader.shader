@@ -24,8 +24,6 @@
             #pragma fragment frag
             #include "UnityCG.cginc"
             #include "UnityUI.cginc"
-            
-            #pragma multi_compile_local HOLE_ONE HOLE_TWO HOLE_THREE HOLE_FOUR
 
             struct appdata
             {
@@ -43,24 +41,21 @@
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
+            
             sampler2D _HoleTex1;
-            float4 _HoleTex1_ST;
-            float4 _HoleRect1;
+            float4 _HoleRect1 = (0,0,0,0);
             float4 _HoleUv1;
             
             sampler2D _HoleTex2; 
-            float4 _HoleTex2_ST;
-            float4 _HoleRect2;
+            float4 _HoleRect2 = (0,0,0,0);
             float4 _HoleUv2;
             
             sampler2D _HoleTex3;
-            float4 _HoleTex3_ST;
-            float4 _HoleRect3;
+            float4 _HoleRect3 = (0,0,0,0);
             float4 _HoleUv3;
             
             sampler2D _HoleTex4;
-            float4 _HoleTex4_ST;
-            float4 _HoleRect4;
+            float4 _HoleRect4 = (0,0,0,0);
             float4 _HoleUv4;
 
             v2f vert (appdata v)
@@ -88,31 +83,11 @@
 
             fixed4 frag (v2f i) : SV_Target
             {
-                #ifdef HOLE_ONE
-                    fixed4 col = tex2D(_MainTex, i.uv) *i.color;
-                    return getColor(col,i,_HoleTex1,_HoleRect1,_HoleUv1);
-                #endif 
-                
-                #ifdef HOLE_TWO
-                    fixed4 col = tex2D(_MainTex, i.uv) *i.color;
-                    col = getColor(col,i,_HoleTex1,_HoleRect1,_HoleUv1);
-                    return getColor(col,i,_HoleTex2,_HoleRect2,_HoleUv2);
-                #endif
-                
-                #ifdef HOLE_THREE
-                    fixed4 col = tex2D(_MainTex, i.uv) *i.color;
-                    col = getColor(col,i,_HoleTex1,_HoleRect1,_HoleUv1);
-                    col = getColor(col,i,_HoleTex2,_HoleRect2,_HoleUv2);
-                    return getColor(col,i,_HoleTex3,_HoleRect3,_HoleUv3);
-                #endif
-                
-                #ifdef HOLE_FOUR
-                    fixed4 col = tex2D(_MainTex, i.uv) *i.color;
-                    col = getColor(col,i,_HoleTex1,_HoleRect1,_HoleUv1);
-                    col = getColor(col,i,_HoleTex2,_HoleRect2,_HoleUv2);
-                    col = getColor(col,i,_HoleTex3,_HoleRect3,_HoleUv3);
-                    return getColor(col,i,_HoleTex4,_HoleRect4,_HoleUv4);
-                #endif
+                fixed4 col = tex2D(_MainTex, i.uv) *i.color;
+                col = getColor(col,i,_HoleTex1,_HoleRect1,_HoleUv1);
+                col = getColor(col,i,_HoleTex2,_HoleRect2,_HoleUv2);
+                col = getColor(col,i,_HoleTex3,_HoleRect3,_HoleUv3);
+                return getColor(col,i,_HoleTex4,_HoleRect4,_HoleUv4);
             }
             
             
