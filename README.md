@@ -22,7 +22,7 @@ https://www.cnblogs.com/j349900963/p/8340571.html
 
 ## 效果展示
 
-
+![img](https://github.com/jechyang/UguiHole/blob/main/ReadMeImg/hole.gif)
 
 ## 使用方式
 
@@ -37,8 +37,16 @@ https://www.cnblogs.com/j349900963/p/8340571.html
 目前默认支持挖四个洞，如果需要增加挖洞数量的话需要按照以下步骤进行更改。
 
 1. 修改HoleMgr里的**_maxHoleCount**变量。
-2. 在shader里增加变量。
+
+   ![img](https://github.com/jechyang/UguiHole/blob/main/ReadMeImg/addVar.png)
+
+2. 在**HoleShader**里按照格式增加变量。
+
+   ![img](https://github.com/jechyang/UguiHole/blob/main/ReadMeImg/addShaderVar.png)
+
 3. 在frag函数里调用**getColor**函数获取对应texture的颜色。
+
+   ![img](https://github.com/jechyang/UguiHole/blob/main/ReadMeImg/modifyFrag.png)
 
 
 
